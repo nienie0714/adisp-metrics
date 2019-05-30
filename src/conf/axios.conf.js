@@ -89,7 +89,7 @@ function responseErr (error) {
 }
 
 const axiosReq = axios.create({
-  baseURL: forwardURL + '/openapi',
+  baseURL: forwardURL + '/monitor',
   headers: {
     'Content-Type': 'application/json;charset-UTF-8',
     'Access-Control-Allow-Origin': '*',

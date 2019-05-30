@@ -10,7 +10,7 @@
       </el-menu> -->
       <div class="logo-header">
         <!-- <img :src="require('@img/logo_header.png')"/> -->
-        消息交互平台
+        机场数据集成服务平台
       </div>
     </el-header>
   </div>
@@ -40,7 +40,7 @@ export default {
   padding-top: 15px;
 } */
 .logo-header {
-    padding-left: 20px;
+    text-align: center;
     padding-top: 15px;
     color: #fff;
     font-size: 36px;

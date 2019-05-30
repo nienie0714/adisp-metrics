@@ -3,7 +3,7 @@
     <div class="login-header">
       <div class="logo-header">
         <!-- <img :src="require('@img/logo_header.png')"/> -->
-        消息交互平台
+        机场数据集成服务平台
       </div>
     </div>
     <div class="login-main">

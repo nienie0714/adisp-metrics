@@ -1,46 +1,8 @@
 <template>
   <div>
-    <el-aside :class="asideHidden?'hidden-aside':'whole-aside'">
-      <div style="height: 100%;">
-        <el-input v-show="!asideHidden" placeholder="搜索功能模块" v-model.trim="filterName" clearable @keyup.enter.native="filterMethod"><!--  suffix-icon="el-icon-search" -->
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        </el-input>
-        <el-menu class="aside-el-menu" router :default-active="$route.path" unique-opened @select="handleSelect" :collapse="asideHidden" :collapse-transition="false">
-          <div v-for="aside in asideData" :key="aside.attributes">
-            <el-submenu v-if="aside.children != null && aside.children != [] && (!aside.hidden)" :index="aside.attributes">
-              <template slot="title">
-                <div :class="aside.iconCls?(aside.iconCls+' menu-icon'):'menu-icon'"></div>
-                <span slot="title">{{ aside.text }}</span>
-              </template>
-              <div v-for="child in aside.children" :key="child.attributes">
-                <el-menu-item v-if="!child.hidden" :index="child.attributes">{{ child.text }}</el-menu-item>
-              </div>
-            </el-submenu>
-            <el-menu-item v-else-if="aside.children == null && (!aside.hidden)" :index="aside.attributes">{{ aside.text }}</el-menu-item>
-          </div>
-        </el-menu>
-        <!-- <el-menu class="aside-el-menu" router :default-active="$route.path" unique-opened @select="handleSelect" :collapse="asideHidden" :collapse-transition="false">
-          <div v-for="aside in asideData" :key="aside.attributes">
-            <el-submenu v-if="aside.children != null && aside.children != [] && (!aside.hidden)" :index="aside.attributes">
-              <template slot="title">
-                <div :class="aside.iconCls?(aside.iconCls+' menu-icon'):'menu-icon'"></div>
-                <span slot="title">{{ aside.text }}</span>
-              </template>
-              <div v-for="child in aside.children" :key="child.attributes">
-                <el-menu-item v-if="!child.hidden" :index="child.attributes">{{ child.text }}</el-menu-item>
-              </div>
-            </el-submenu>
-            <el-menu-item v-else-if="aside.children == null && (!aside.hidden)" :index="aside.attributes">{{ aside.text }}</el-menu-item>
-          </div>
-        </el-menu> -->
-        <div :class="asideHidden?'aside-hidden-img ishidden':'aside-hidden-img'" @click="handleAsideHiddenButton"></div>
-      </div>
+    <!-- <el-aside :class="asideHidden?'hidden-aside':'whole-aside'"> -->
+    <el-aside class="hidden-aside">
     </el-aside>
-    <div v-if="!asideHidden" class="latest-bg basicdata-latest-bg">
-      <div class="latest-time">{{ latestTime }}</div>
-      <div class="latest-date">{{ latestDate }}</div>
-      <div class="latest-remark">Developed by YueTai Tech Co.,Ltd 2018</div>
-    </div>
   </div>
 </template>
 
@@ -64,7 +26,6 @@ export default {
   },
   created () {
     this.$nextTick(() => {
-      // localStorage.getItem('basicdataName')
       this.asideData = JSON.parse(localStorage.getItem('userResource'))
       this.findActiveIndex(this.asideData)
       if (localStorage.getItem('indexTime') != 1) {
@@ -74,29 +35,6 @@ export default {
         this.$router.push({name: localStorage.getItem('basicdataName')})
       }
     })
-    // this.homeRouterData = this.$store.getters.getHomeRouterData
-    // this.$nextTick(() => {
-    //   _.forEach(this.homeRouterData, (item) => {
-    //     if (this.$route.matched[0].path == item.path) {
-    //       this.asideData = JSON.parse(localStorage.getItem(item.loc))
-    //     }
-    //   })
-    //   if (_.map(this.homeRouterData, 'path').includes(this.$route.matched[0].path)) {
-    //     _.forEach(this.homeRouterData, (item) => {
-    //       if (this.$route.matched[0].path == item.path) {
-    //         let name = localStorage.getItem(item.routerName)
-    //         if (name) {
-    //           this.$router.push({name: name})
-    //         } else {
-    //           this.findActiveIndex(this.asideData)
-    //           this.$router.push(this.activeIndex)
-    //           localStorage.setItem(item.name, this.activeName)
-    //           localStorage.setItem(item.routerName, this.$route.name)
-    //         }
-    //       }
-    //     })
-    //   }
-    // })
   },
   methods: {
     findActiveIndex (arr) {
@@ -105,20 +43,6 @@ export default {
         this.activeIndex = arr[0].children[0].attributes
       }
      }
-      // this.indexTime = this.indexTime + 1
-      // for (let i = 0; i < arr.length; i++) {
-      //   console.log(arr[i].children)
-      //   if (arr[i].hasOwnProperty('children') && (arr[i].children != null) && (arr[i].children.length > 0)) {
-      //     this.findActiveIndex(arr[i].children)
-      //     if (this.indexTime > 0) {
-      //       return
-      //     }
-      //   } else {
-      //     this.activeIndex = arr[i].attributes
-      //     this.indexTime = this.indexTime + 1
-      //     return
-      //   }
-      // }
     },
     handleAsideHiddenButton () {
       if (this.asideHidden) {

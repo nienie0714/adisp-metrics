@@ -618,6 +618,7 @@ input[type="number"] {
 }
 .dot-font span {
   float: left;
+  line-height: 60px;
   color: #89a6b2;
   font-size: 14px;
   padding-right: 0;
@@ -1844,6 +1845,7 @@ div.el-upload {
 .other-dialog .dialog-body {
   text-align: center;
   overflow: hidden;
+  height: 100%;
 }
 .prepop-dialog>.el-dialog {
   height: 196px;

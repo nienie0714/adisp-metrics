@@ -46,26 +46,12 @@ export default {
     let key = this.data.key
     if (this.data.type == 'select') {
       if (this.data.hasOwnProperty('getOptions')) {
-        // let query = {}
-        // if (this.data.hasOwnProperty('optionsQuery')) {
-        //   query = this.data.optionsQuery
-        // }
         getQueryAll(this.data.getOptions).then(response => {
-          if (response.data.code == 0) {
+          if (response.data.success) {
             if (this.data.hasOwnProperty('options')) {
               this.data.options = this.data.options.concat(response.data.data)
             } else {
-              // this.$set(this.data, 'options', response.data.data)
-              let b = []
-              _.forEach(response.data.data, item => {
-                let i = _.findIndex(b, function (o) {
-                  return o[key] == item[key]
-                })
-                if (i == -1) {
-                  b.push(item)
-                }
-              })
-              this.$set(this.data, 'options', b)
+              this.$set(this.data, 'options', response.data.data)
             }
           }
         })

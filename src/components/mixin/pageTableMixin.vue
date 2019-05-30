@@ -54,29 +54,28 @@ export default {
     queryDataReq () {
       this.getQueryData()
       let data = {
-        pageNum: this.pageData.currentPage ? this.pageData.currentPage : 1,
-        pageSize: this.pageData.pageSize ? this.pageData.pageSize : 10,
         data: this.queryData
       }
-      queryPageDataList(this.queryUrl, data).then(response => {
-        if (response.data.code == 0) {
-          this.setLastUpdateTime()
-          if (response.data.data.hasOwnProperty('rows')) {
-            this.tableData.data = response.data.data.rows
-            if (response.data.data.hasOwnProperty('total')) {
-              this.pageData.total = response.data.data.total
-            }
-            this.customAfterQuery()
-          }
-        } else {
-          this.showError('查询', '请重新尝试 !')
-        }
-      })
-      // getQueryAll(this.queryUrl).then(response => {
-      //   this.setLastUpdateTime()
-      //     this.tableData.data = response.data.data
-      //     this.customAfterQuery()
+      // queryPageDataList(this.queryUrl, data).then(response => {
+      //   if (response.data.code == 0) {
+      //     this.setLastUpdateTime()
+      //     if (response.data.data.hasOwnProperty('rows')) {
+      //       this.tableData.data = response.data.data.rows
+      //       if (response.data.data.hasOwnProperty('total')) {
+      //         this.pageData.total = response.data.data.total
+      //       }
+      //       this.customAfterQuery()
+      //     }
+      //   } else {
+      //     this.showError('查询', '请重新尝试 !')
+      //   }
       // })
+      let url = this.queryUrl + `?host=${this.queryData.host}`
+      getQueryAll(url).then(response => {
+        this.setLastUpdateTime()
+          this.tableData.data = response.data.data
+          this.customAfterQuery()
+      })
     },
     customAfterQuery () {
     },

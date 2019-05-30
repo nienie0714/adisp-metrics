@@ -2,14 +2,24 @@
   <div class="basic-resource-contain table-container">
     <el-container direction="vertical">
       <el-header>
-        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>基础资源</el-breadcrumb-item>
-          <el-breadcrumb-item @click="changeRouterViewName('stand')">停机位管理</el-breadcrumb-item>
-        </el-breadcrumb> -->
         <div class="table-header">
           <img :src="require('@img/title_deco.png')" />
-          <span class="header-title">{{ routerViewName }}</span>
+          <!-- <span class="header-title">{{ routerViewName }}</span> -->
+          <span class="header-title">主机管理</span>
+          <span>
+            <div class="dot-font" v-if="monitorStatus == 'green'">
+              <div class="dot-color-4_1"></div>
+              <span>监控系统正常</span>
+            </div>
+            <div class="dot-font" v-if="monitorStatus == 'red'">
+              <div class="dot-color-3"></div>
+              <span>监控系统警告</span>
+            </div>
+            <div class="dot-font" v-if="monitorStatus == 'yellow'">
+              <div class="dot-color-2"></div>
+              <span>监控系统停止</span>
+            </div>
+          </span>
           <div class="header-update-div">
             <div>最后更新时间：</div>
             <div>{{lastUpdateTime}}</div>
@@ -30,12 +40,13 @@
 </template>
 
 <script>
-
+import {getQueryAll} from '../../api/base.js'
 export default {
   data () {
     return {
       // 命名视图名称
-      routerViewName: ''
+      routerViewName: '',
+      monitorStatus: ''
     }
   },
   mounted () {
@@ -45,6 +56,17 @@ export default {
     } else {
       this.routerViewName = localStorage.getItem('statisticsName')
     }
+  },
+  created () {
+    getQueryAll('/status').then(res => {
+      if (res.data.success) {
+        this.monitorStatus = res.data.data
+      } else {
+        this.showError('获取监控状态', '请重新尝试 !')
+      }
+    }).catch(() => {
+      this.showError('获取监控状态', '请重新尝试 !')
+    })
   },
   methods: {
     changeRouterViewName (keyName) {
