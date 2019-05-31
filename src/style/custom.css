@@ -188,6 +188,10 @@ input[type="number"] {
 .button-detail {
   background-image: url('../assets/img/basic/icon_list_btn_detail.png');
 }
+.button-details {
+  background-image: url('../assets/img/basic/icon_list_btn_detail.png');
+  transform:rotate(90deg);
+}
 .button-reset {
   background-image: url('../assets/img/basic/icon_list_btn_pw.png');
 }
@@ -464,7 +468,7 @@ input[type="number"] {
 }
 /* ************************航班列表样式开始********************** */
 .home-container-cent {
-  padding: 0 20px 20px 20px !important;
+  padding: 0 20px 20px 12px !important;
   overflow: hidden;
 }
 /* **********tr/th/td相关高度宽度设置开始********** */
@@ -2036,6 +2040,9 @@ div.el-upload {
 .color-3-row {
   /* background: rgba(230, 80, 105, 0.4); */
   background-color: #602D3D;
+}
+.color-alarm {
+  background-color: #602D3D !important;
 }
 /* 本站 */
 .color-4_1-row {

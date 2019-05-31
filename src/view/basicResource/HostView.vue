@@ -14,6 +14,10 @@
       </div>
       <Table-view :permissions="permissions" :tableData="tableData" ref="basicTable" @change="tableChange" @handleDetail="handleDetail" @handleEdit="handleEdit" @handleDelete="handleDelete">
         <template slot="button-slot-scope" slot-scope="scopeData">
+          <div class="tool-div-button button-detail" title="主机详情" @click="openHomeDia(scopeData.data)"></div>
+          <div class="tool-div-button button-details" title="API详情" @click="openSubscribeDia(scopeData.data)"></div>
+        </template>
+        <!-- <template slot="button-slot-scope" slot-scope="scopeData">
           <el-dropdown trigger="click" title="更多">
             <div class="tool-div-button button-reset"></div>
             <el-dropdown-menu slot="dropdown" class="morrow-button-dpd">
@@ -21,11 +25,11 @@
               <el-dropdown-item :divided="true" @click.native="openHomeDia(scopeData.data)">主机详情</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </template>
+        </template> -->
       </Table-view>
     </el-main>
-    <Edit-view :formData="formData" @handleAdd="saveAdd" @handleEdit="saveEdit" @handleReset="saveReset" @handlePwd="savePassword"></Edit-view>
-    <el-dialog  :visible.sync="subscribeData.visible" :close-on-click-modal="false" width="850px" append-to-body class='other-dialog menu-status-dialog' @close="closeSubscribeDialog">
+    <!-- <Edit-view :formData="formData" @handleAdd="saveAdd" @handleEdit="saveEdit" @handleReset="saveReset" @handlePwd="savePassword"></Edit-view> -->
+    <el-dialog  :visible.sync="subscribeData.visible" :close-on-click-modal="false" width="900px" append-to-body class='other-dialog menu-status-dialog' @close="closeSubscribeDialog">
       <div slot="title" class="table-header flight-table-header-left">
         <img :src="require('@img/title_deco.png')" />
         <span class="header-title" :style="{'line-height': '60px'}">{{subscribeData.title}}</span>
@@ -52,7 +56,7 @@
           </el-row>
         </div>
         <div>
-          <el-table height="430" ref="multipleTable" :data="subscribeData.tableData" stripe :highlight-current-row="true" :row-key="subscribeData.key" align="center" style="width: 100%" @selection-change="handleSubSelectionChange">
+          <el-table height="465" ref="multipleTable" :data="subscribeData.tableData" stripe :highlight-current-row="true" :row-key="subscribeData.key" align="center" style="width: 100%" @selection-change="handleSubSelectionChange">
             <el-table-column type="selection" fixed="left" align="center"></el-table-column>
             <el-table-column prop="apiPath" label="api路径" align="center"></el-table-column>
             <el-table-column prop="apiStatus" label="api状态" align="center"></el-table-column>
@@ -66,7 +70,7 @@
       </div>
     </el-dialog>
     <!-- 主机详情 -->
-    <el-dialog  :visible.sync="homeData.visible" :close-on-click-modal="false" width="850px" append-to-body class='other-dialog menu-status-dialog' @close="closeHomeDialog">
+    <el-dialog  :visible.sync="homeData.visible" :close-on-click-modal="false" width="900px" append-to-body class='other-dialog menu-status-dialog' @close="closeHomeDialog">
       <div slot="title" class="table-header flight-table-header-left">
         <img :src="require('@img/title_deco.png')" />
         <span class="header-title" :style="{'line-height': '60px'}">{{homeData.title}}</span>
@@ -210,7 +214,7 @@ export default {
       diskChartEl: null,
       diskOptions: {
         title: {
-          text: 'CPU使用情况',
+          text: '磁盘占用情况',
           textAlign: 'auto',
           left: '27%',
           top: '10%',
@@ -224,16 +228,26 @@ export default {
         tooltip: {
           trigger: 'item',
           confine: true,
-          formatter: '{a} <br/>{b}: {c} ({d}%)',
+          // formatter: '{a} <br/>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#ff6f0b"></span>' + '{b}: {c}MB ({d}%)',
           extraCssText:
             `background-color: rgba(19, 47, 64, 0.96);
             border: 1px solid rgba(60, 166, 200, 0.7);
             box-shadow: 0 0 30px rgba(60, 166, 200, 0.4) inset, 0 8px 20px rgba(6, 13, 20, 0.9);
-            border-radius: 8px;`
+            border-radius: 8px;`,
+          formatter: function (params) {
+            var result = ''
+            let arr = []
+            arr.push(params)
+            arr.forEach((item) => {
+              result += item.seriesName + '<br/>' + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + item.color + '"></span>' + item.name + ': ' + item.value + 'MB (' + item.percent + '%)'
+            })
+
+            return result
+          }
         },
         series: [
           {
-            name: 'CPU使用情况',
+            name: '磁盘占用情况',
             type: 'pie',
             radius: '75%',
             avoidLabelOverlap: false,
@@ -283,7 +297,7 @@ export default {
             fontSize: 0, // this.fontSizeRs,
             fontFamily: `'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, Arial, sans-serif`
           },
-          data: ['出港', '进港']
+          data: ['CPU占用率', '内存占用率']
         },
         grid: {
           left: 100 / 1065 * 40 + '%',
@@ -358,6 +372,19 @@ export default {
             lineStyle: {
               color: 'rgba(60,166,200,0.7)'
             }
+          },
+          formatter: function (params) {
+            var result = ''
+            params.forEach((item, index) => {
+              if (index == 1) {
+                item.name = ''
+              } else {
+                item.name = item.name + '<br/>'
+              }
+              result += item.name + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + item.color + '"></span>' + item.seriesName + ': ' + item.value + '%' + '<br/>'
+            })
+
+            return result
           }
         },
         xAxis: {
@@ -408,7 +435,7 @@ export default {
         }],
         series: [
           {
-            name: '出港',
+            name: 'CPU占用率',
             type: 'line',
             // data: [120, 132, 101, 134, 90, 230, 210]
             symbol: 'circle',
@@ -466,7 +493,7 @@ export default {
             data: []
           },
           {
-            name: '进港',
+            name: '内存占用率',
             type: 'line',
             symbol: 'circle',
             symbolSize: 8,
@@ -535,7 +562,7 @@ export default {
             fontSize: 0, // this.fontSizeRs,
             fontFamily: `'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, Arial, sans-serif`
           },
-          data: ['出港', '进港']
+          data: ['缓冲区', '内存']
         },
         grid: {
           left: 100 / 1065 * 40 + '%',
@@ -610,6 +637,19 @@ export default {
             lineStyle: {
               color: 'rgba(60,166,200,0.7)'
             }
+          },
+          formatter: function (params) {
+            var result = ''
+            params.forEach((item, index) => {
+              if (index == 1) {
+                item.name = ''
+              } else {
+                item.name = item.name + '<br/>'
+              }
+              result += item.name + '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + item.color + '"></span>' + item.seriesName + ': ' + item.value + '%' + '<br/>'
+            })
+
+            return result
           }
         },
         xAxis: {
@@ -660,7 +700,7 @@ export default {
         }],
         series: [
           {
-            name: '出港',
+            name: '缓冲区',
             type: 'line',
             // data: [120, 132, 101, 134, 90, 230, 210]
             symbol: 'circle',
@@ -718,7 +758,7 @@ export default {
             data: []
           },
           {
-            name: '进港',
+            name: '内存',
             type: 'line',
             symbol: 'circle',
             symbolSize: 8,
@@ -768,6 +808,11 @@ export default {
   mounted () {
   },
   methods: {
+    tableRowClassName ({row, rowIndex}) {
+      if (row.apiStatus == 'true') {
+        return 'color-alarm'
+      }
+    },
     // 列表选中事件
     tableChange (data) {
       if (data.currentRow) {
@@ -775,63 +820,6 @@ export default {
           this.$set(this.formData.formData[i], 'value', data.currentRow[this.formData.formData[i].key])
         }
       }
-    },
-    // 重置
-    handleReset (row) {
-      for (let i = 0; i < this.formData.formData.length; i++) {
-        this.$set(this.formData.formData[i], 'value', row[this.formData.formData[i].key])
-        if (this.formData.formData[i].key == 'password') {
-          this.$set(this.formData.formData[i], 'isHidden', false)
-          this.$set(this.formData.formData[i], 'value', '')
-        } else if (this.formData.formData[i].key == 'userName') {
-          this.$set(this.formData.formData[i], 'isHidden', false)
-          this.$set(this.formData.formData[i], 'type', 'pInput')
-        } else {
-          this.$set(this.formData.formData[i], 'isHidden', true)
-        }
-      }
-      this.formData.title = '重置密码'
-      this.formData.visible = true
-    },
-    // 发送重置密码请求
-    saveReset (data) {
-      postData(this.resetUrl, data).then(response => {
-        if (response.data.code == 0) {
-          this.formData.visible = false
-          this.showSuccess('密码重置')
-          this.customMethod()
-          this.queryDataReq(1)
-        }
-        this.formData.loading = false
-      })
-    },
-    // 修改密码
-    handlePwd (row) {
-      for (let i = 0; i < this.formData.formData.length; i++) {
-        this.$set(this.formData.formData[i], 'value', row[this.formData.formData[i].key])
-        if (this.formData.formData[i].key == 'password' || this.formData.formData[i].key == 'newPassword') {
-          this.$set(this.formData.formData[i], 'isHidden', false)
-          this.$set(this.formData.formData[i], 'value', '')
-        } else {
-          this.$set(this.formData.formData[i], 'isHidden', true)
-        }
-      }
-      this.formData.title = '修改密码'
-      this.formData.visible = true
-    },
-    // 发送修改密码请求
-    savePassword (data) {
-      postData(this.pwUrl, data).then(response => {
-        if (response.data.code == 0) {
-          this.formData.visible = false
-          this.showSuccess('密码修改')
-          this.customMethod()
-          this.queryDataReq(1)
-        } else if (response.data.code == -1) {
-            this.showError('修改密码', response.data.msg)
-        }
-        this.formData.loading = false
-      })
     },
     openSubscribeDia (row) {
       this.subscribeData.data.hostAddress = row.hostAddress
@@ -893,7 +881,7 @@ export default {
             this.$set(this.homeData.data, 'cpuUsage', [])
             this.$set(this.homeData.data, 'cpuUsage', res.data.data.cpuUsage.map(item => (item * 100).toFixed(2)))
             this.$set(this.homeData.data, 'memoryUsage', [])
-            this.$set(this.homeData.data, 'memoryUsage', res.data.data.memoryUsage)
+            this.$set(this.homeData.data, 'memoryUsage', res.data.data.memoryUsage.map(item => (item * 100).toFixed(2)))
             this.cpuOptions.xAxis.data = this.homeData.data.sysRecordDate
             this.cpuOptions.series[0].data = this.homeData.data.cpuUsage
             this.cpuOptions.series[1].data = this.homeData.data.memoryUsage
@@ -902,13 +890,13 @@ export default {
             this.jvmChartEl = document.getElementById('jvmChart')
             this.jvmChart = this.$echarts.init(this.jvmChartEl)
 
-            this.$set(this.homeData.data, 'sysRecordDate', [])
-            this.$set(this.homeData.data, 'sysRecordDate', res.data.data.sysRecordDate)
+            this.$set(this.homeData.data, 'jvmRecordDate', [])
+            this.$set(this.homeData.data, 'jvmRecordDate', res.data.data.jvmRecordDate)
             this.$set(this.homeData.data, 'jvmBufferUsage', [])
-            this.$set(this.homeData.data, 'jvmBufferUsage', res.data.data.jvmBufferUsage)
+            this.$set(this.homeData.data, 'jvmBufferUsage', res.data.data.jvmBufferUsage.map(item => (item * 100).toFixed(2)))
             this.$set(this.homeData.data, 'jvmMemoryUsage', [])
-            this.$set(this.homeData.data, 'jvmMemoryUsage', res.data.data.jvmMemoryUsage)
-            this.jvmOptions.xAxis.data = this.homeData.data.sysRecordDate
+            this.$set(this.homeData.data, 'jvmMemoryUsage', res.data.data.jvmMemoryUsage.map(item => (item * 100).toFixed(2)))
+            this.jvmOptions.xAxis.data = this.homeData.data.jvmRecordDate
             this.jvmOptions.series[0].data = this.homeData.data.jvmBufferUsage
             this.jvmOptions.series[1].data = this.homeData.data.jvmMemoryUsage
             this.updateView()
@@ -953,7 +941,7 @@ export default {
 </script>
 <style>
 .menu-status-dialog>.el-dialog {
-  height: 600px;
+  height: 650px;
 }
 .morrow-button-dpd>li:first-of-type {
   border-top: 0;
@@ -997,7 +985,10 @@ export default {
 .cpu-wrapper>div {
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: 47%;
   width: 100%;
+}
+.cpu-wrapper>div:nth-child(1) {
+  margin-bottom: 15px;
 }
 </style>

@@ -16,10 +16,13 @@ export default {
         total: 0
       },
       // 下载文件名
-      fileName: '无线站坪调度基础数据导出.xls'
+      fileName: '无线站坪调度基础数据导出.xls',
+      timer: null
     }
   },
   mounted () {
+    clearInterval(this.timer)
+    // this.setTimer()
     const that = this
     window.name = this.$route.name
     if (this.$route.matched[0].path == '/basicdata') {
@@ -49,6 +52,9 @@ export default {
       }
     })
   },
+  distroyed: function () {
+    clearInterval(this.timer)
+  },
   methods: {
     // 发送分页查询请求
     queryDataReq () {
@@ -76,6 +82,9 @@ export default {
           this.tableData.data = response.data.data
           this.customAfterQuery()
       })
+    },
+    setTimer () {
+      this.timer = setInterval(this.queryDataReq, 1000)
     },
     customAfterQuery () {
     },

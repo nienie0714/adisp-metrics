@@ -13,19 +13,24 @@ Vue.use(Router)
 var router = new Router({
   routes: [
     {
+      path: '/',
+      name: '主机管理',
+      redirect: '/basicdata/manage/host'
+    },
+    {
       path: '/basicdata',
       name: '基础数据',
       component: Home,
       children: [
         {
-          path: 'perm',
-          name: '权限',
+          path: 'manage',
+          name: '管理',
           component: Basic,
           children: [
             {
-              path: 'user',
+              path: 'host',
               name: '用户管理',
-              component: r => require.ensure([], () => r(require('@/view/basicResource/UserView'), 'UserView'))
+              component: r => require.ensure([], () => r(require('@/view/basicResource/HostView'), 'HostView'))
             }
           ]
         }

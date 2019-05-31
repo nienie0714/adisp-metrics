@@ -37,9 +37,9 @@
     </el-table-column>
     <el-table-column v-if="tableData.isOperat ? false : true" :label='"操作"' width="190" class-name="table-opt-col">
       <template slot-scope="scope">
-        <div class="tool-div-button button-detail" title="详情" @click="handleDetail(scope.row)"></div>
+        <!-- <div class="tool-div-button button-detail" title="详情" @click="handleDetail(scope.row)"></div>
         <div v-if="permissions.update" class="tool-div-button button-edit" title="编辑" @click="handleEdit(scope.row)"></div>
-        <div v-if="permissions.delete" class="tool-div-button button-delete" title="删除" @click="handleDelete(scope.row)"></div>
+        <div v-if="permissions.delete" class="tool-div-button button-delete" title="删除" @click="handleDelete(scope.row)"></div> -->
         <slot name="button-slot-scope" :data="scope.row"></slot>
       </template>
     </el-table-column>

@@ -126,7 +126,7 @@ export default {
 }
 .hidden-aside {
   overflow: hidden;
-  width: 70px !important;
+  width: 0px !important;
   padding: 0 10px;
 }
 .el-aside {
