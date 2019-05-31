@@ -2449,25 +2449,25 @@ tr.tr-single {
 .menu-status-dialog .el-table__fixed-body-wrapper .el-table__row:not(.el-table__row--striped).current-row td {
   background: #215870 !important;
 }
-/* .menu-status-dialog .el-table--striped .el-table__body tr.el-table__row--striped td {
+.menu-status-dialog .el-table--striped .el-table__body tr.el-table__row--striped td {
   background: none;
 }
 .menu-status-dialog .el-table__row--striped>.el-table-column--selection {
   background-color: #081e2d !important;
 }
 .menu-status-dialog .el-table__fixed-body-wrapper .hover-row,
-.menu-status-dialog .el-table__fixed-body-wrapper .current-row, {
+.menu-status-dialog .el-table__fixed-body-wrapper .current-row {
   box-shadow: none;
 }
 .menu-status-dialog .el-table__body-wrapper .hover-row th,
 .menu-status-dialog .el-table__body-wrapper .hover-row td,
 .menu-status-dialog .el-table__body-wrapper .current-row th,
 .menu-status-dialog .el-table__body-wrapper .current-row td {
-  background: #215870 !important;/* rgba(60,166,200,0.4) !important;
+  background: #215870 !important;
 }
 .menu-status-dialog .el-table__fixed-body-wrapper .hover-row th,
 .menu-status-dialog .el-table__fixed-body-wrapper .hover-row td,
 .menu-status-dialog .el-table__fixed-body-wrapper .current-row th,
 .menu-status-dialog .el-table__fixed-body-wrapper .current-row td {
   background: #215870 !important;
-} */
+}

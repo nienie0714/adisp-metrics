@@ -809,7 +809,7 @@ export default {
   },
   methods: {
     tableRowClassName ({row, rowIndex}) {
-      if (row.apiStatus == 'true') {
+      if (row.apiStatus == 'false') {
         return 'color-alarm'
       }
     },

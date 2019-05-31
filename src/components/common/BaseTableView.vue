@@ -197,12 +197,32 @@ export default {
 .menu-status-dialog .el-table__body-wrapper .el-table__row:not(.el-table__row--striped).current-row td {
   background-color: #215870 !important;
 }
+/* .el-table__fixed-body-wrapper .el-table__row:not(.el-table__row--striped).hover-row td,
+.el-table__fixed-body-wrapper .el-table__row:not(.el-table__row--striped).current-row td {
+  background: #215870 !important;
+}
 .el-table__body-wrapper .current-row {
   background-color: #215870 !important;
 }
 .el-table__body-wrapper .hover-row {
   background-color:#215870 !important;
+}*/
+.el-table__body-wrapper .hover-row th,
+.el-table__body-wrapper .hover-row td,
+.el-table__body-wrapper .current-row th,
+.el-table__body-wrapper .current-row td,
+.el-table--striped .hover-row th,
+.el-table--striped .hover-row td,
+.el-table--striped .current-row td,
+.el-table--striped .current-row th {
+  background: #215870 !important;
 }
+/* .el-table--enable-row-transition .color-alarm:hover>td {
+  background: #823e53 !important;
+} */
+
+/* background-color: #055950 !important; */
+
 .basic-resource-contain .el-table .el-table__body-wrapper .el-table__row,
 .menu-status-dialog .el-table .el-table__body-wrapper .el-table__row:not(.el-table__row--striped),
 .basic-resource-contain .el-table .el-table__fixed-body-wrapper .el-table__row,
