@@ -56,10 +56,10 @@
           </el-row>
         </div>
         <div>
-          <el-table height="465" ref="multipleTable" :data="subscribeData.tableData" stripe :highlight-current-row="true" :row-key="subscribeData.key" align="center" style="width: 100%" @selection-change="handleSubSelectionChange">
+          <el-table height="465" ref="multipleTable" :data="subscribeData.tableData" :row-class-name="apiTableRowClassName" stripe :highlight-current-row="true" :row-key="subscribeData.key" align="center" style="width: 100%" @selection-change="handleSubSelectionChange">
             <el-table-column type="selection" fixed="left" align="center"></el-table-column>
             <el-table-column prop="apiPath" label="api路径" align="center"></el-table-column>
-            <el-table-column prop="apiStatus" label="api状态" align="center"></el-table-column>
+            <el-table-column prop="apiStatus" label="api状态" align="center" :formatter="formatterApiDia"></el-table-column>
             <el-table-column prop="lastVisitTime" label="上次访问时间" align="center"></el-table-column>
           </el-table>
         </div>
@@ -177,7 +177,7 @@ export default {
           {prop: 'hostAddress', label: '主机', hidden: false},
           {prop: 'port', label: '端口', hidden: false},
           {prop: 'macAddress', label: 'mac地址', hidden: false},
-          {prop: 'apiStatus', label: 'API状态', hidden: false}
+          {prop: 'apiStatus', label: 'API状态', hidden: false, formatter: this.formatterApi}
         ]
       },
       canNotDeleteData: {
@@ -808,8 +808,21 @@ export default {
   mounted () {
   },
   methods: {
+    formatterApi (row, column) {
+      return row[column.property] == 'true' ? '正常' : '警告'
+    },
+    formatterApiDia (row, column) {
+      return row[column.property] == 'yellow' ? '警告' : (row[column.property] == 'red' ? '停止' : '正常')
+    },
     tableRowClassName ({row, rowIndex}) {
       if (row.apiStatus == 'false') {
+        return 'color-alarm'
+      }
+    },
+    apiTableRowClassName ({row, rowIndex}) {
+      if (row.apiStatus == 'yellow') {
+        return 'color-yellow'
+      } else if (row.apiStatus == 'red') {
         return 'color-alarm'
       }
     },
@@ -829,6 +842,7 @@ export default {
       getQueryAll(this.subscribeData.url + `${this.subscribeData.data.hostAddress}:${this.subscribeData.data.port}:${this.subscribeData.data.applicationName}:${this.subscribeData.data.serviceName}`).then(res => {
         if (res.data.success) {
           this.subscribeData.tableData = res.data.data.apiInfoVOS
+
           this.$set(this.subscribeData.data, 'serviceName', res.data.data.serviceName)
           this.$set(this.subscribeData.data, 'dbStatus', res.data.data.dbStatus)
         } else {

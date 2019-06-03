@@ -2041,8 +2041,14 @@ div.el-upload {
   /* background: rgba(230, 80, 105, 0.4); */
   background-color: #602D3D;
 }
+.color-yellow {
+  background-color: #696034 !important;
+}
 .color-alarm {
   background-color: #602D3D !important;
+}
+.color-green {
+  background-color: #055950 !important;
 }
 /* 本站 */
 .color-4_1-row {
