@@ -15,21 +15,29 @@ var router = new Router({
     {
       path: '/',
       name: '主机管理',
-      redirect: '/basicdata/manage/host'
+      redirect: to => {
+        return { path: '/basicdata' }
+      }
     },
     {
       path: '/basicdata',
       name: '基础数据',
       component: Home,
+      redirect: to => {
+        return { path: '/manage' }
+      },
       children: [
         {
-          path: 'manage',
+          path: '/manage',
           name: '管理',
           component: Basic,
+          redirect: to => {
+            return { path: '/host' }
+          },
           children: [
             {
-              path: 'host',
-              name: '用户管理',
+              path: '/host',
+              name: '主机管理',
               component: r => require.ensure([], () => r(require('@/view/basicResource/HostView'), 'HostView'))
             }
           ]

@@ -51,11 +51,11 @@ export default {
   },
   mounted () {
     window.name = this.$route.name
-    if (this.$route.matched[0].path == '/basicdata') {
-      this.routerViewName = localStorage.getItem('basicdataName')
-    } else {
-      this.routerViewName = localStorage.getItem('statisticsName')
-    }
+    // if (this.$route.matched[0].path == '/basicdata') {
+    //   this.routerViewName = localStorage.getItem('basicdataName')
+    // } else {
+    //   this.routerViewName = localStorage.getItem('statisticsName')
+    // }
   },
   created () {
     getQueryAll('/status').then(res => {
@@ -78,7 +78,7 @@ export default {
   },
   watch: {
     $route (to, from) {
-      this.routerViewName = localStorage.getItem('basicdataName')
+      // this.routerViewName = localStorage.getItem('basicdataName')
     }
   },
   computed: {

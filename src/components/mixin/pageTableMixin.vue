@@ -36,16 +36,16 @@ export default {
       that.queryResourcePerm()
       var targetTop2 = this.$refs.basicTable.$refs.baseTable.$el.querySelector('.el-table__body-wrapper').getBoundingClientRect().top
       this.tableData.height = window.innerHeight - targetTop2 + 17
-      var asideView = this.$root.$el.querySelector('.el-aside')
+      // var asideView = this.$root.$el.querySelector('.el-aside')
       var basicContView = this.$root.$el.querySelector('.basic-resource-contain')
-      var basicWidth = window.innerWidth - asideView.offsetWidth - 40
+      var basicWidth = window.innerWidth - 40 //  - asideView.offsetWidth
       basicContView.style.width = basicWidth + 'px'
       window.onresize = () => {
         this.$nextTick(() => {
           return (() => {
             const targetTop = that.$refs.basicTable.$refs.baseTable.$el.querySelector('.el-table__body-wrapper').getBoundingClientRect().top
             that.tableData.height = window.innerHeight - targetTop + 17
-            var basicWidth = window.innerWidth - asideView.offsetWidth - 40
+            var basicWidth = window.innerWidth - 40 //  - asideView.offsetWidth
             basicContView.style.width = basicWidth + 'px'
           })()
         })

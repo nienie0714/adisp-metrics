@@ -468,7 +468,7 @@ input[type="number"] {
 }
 /* ************************航班列表样式开始********************** */
 .home-container-cent {
-  padding: 0 20px 20px 12px !important;
+  padding: 0 20px 20px 20px !important;
   overflow: hidden;
 }
 /* **********tr/th/td相关高度宽度设置开始********** */
